@@ -7,6 +7,24 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+//CREATE TABLE `tb_user` (
+//        `id` bigint(20) NOT NULL AUTO_INCREMENT,
+//        `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
+//        `name` varchar(255) DEFAULT NULL,
+//        `gender` tinyint(255) DEFAULT NULL COMMENT '0-男，1-女',
+//        `job` varchar(255) DEFAULT NULL COMMENT '工作名称',
+//        `dept_id` varchar(255) DEFAULT NULL COMMENT '部门',
+//        `phone` int(15) DEFAULT NULL COMMENT '手机',
+//        `email` varchar(255) DEFAULT NULL,
+//        `login_id` varchar(255) DEFAULT NULL COMMENT '登陆名称',
+//        `password` varchar(255) DEFAULT NULL COMMENT '密码',
+//        `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+//        `create_user` varchar(255) DEFAULT NULL COMMENT '创建者',
+//        `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+//        `update_user` datetime DEFAULT NULL COMMENT '修改者',
+//        `memo` varchar(255) DEFAULT NULL COMMENT '备注',
+//        PRIMARY KEY (`id`)
+//        ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 @Data
 @Entity
