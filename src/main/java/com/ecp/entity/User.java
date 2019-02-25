@@ -1,12 +1,11 @@
 package com.ecp.entity;
 
+import com.ecp.entity.base.BaseEntity;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 //CREATE TABLE `tb_user` (
 //        `id` bigint(20) NOT NULL AUTO_INCREMENT,
 //        `role_id` bigint(20) DEFAULT NULL COMMENT '角色id',
@@ -39,7 +38,7 @@ public class User extends BaseEntity implements Serializable {
 //    private Role role;
 
     @Column(name = "name")
-    private String name;
+    private String userName;
 
     @Column(name = "gender")
     private Short gender;
@@ -65,5 +64,4 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(name = "password")
     private String password;
-
 }

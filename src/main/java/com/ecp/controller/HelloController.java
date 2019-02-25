@@ -14,14 +14,14 @@ public class HelloController {
     UserRepo userRepo;
 
     @GetMapping("/")
-    public String hello(){
+    public String hello() {
         return "hello";
     }
 
     @GetMapping("/db")
-    public Object db(){
+    public Object db() {
         User user = new User();
-        user.setName("yhy");
+        user.setUserName("yhy");
         user.setDeptId(12L);
         user.setEmail("123@555.com");
         user.setPhone(63652);

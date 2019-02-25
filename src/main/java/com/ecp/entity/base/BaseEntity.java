@@ -1,4 +1,4 @@
-package com.ecp.entity;
+package com.ecp.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
