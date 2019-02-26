@@ -25,4 +25,11 @@ public class ViewController {
         return mv;
     }
 
+    @GetMapping("/test")
+    public ModelAndView main() {
+        ModelAndView mv = new ModelAndView("/test");
+        return mv;
+    }
+
+
 }

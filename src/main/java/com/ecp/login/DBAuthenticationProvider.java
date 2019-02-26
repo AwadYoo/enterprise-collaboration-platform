@@ -44,49 +44,49 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
 
     }
 
-    //@Override
-    //protected UserDetails retrieveUser(String userId, UsernamePasswordAuthenticationToken token)
-    //        throws AuthenticationException {
-    //    String password = (String) token.getCredentials();
-    //    Optional<User> userOptional = userRepo.findByLoginId(userId);
-    //    if (!userOptional.isPresent())
-    //        throw new UsernameNotFoundException(userId);
-    //    User user = userOptional.get();
-    //    if (!passwordEncoder.matches(password, user.getPassword()))
-    //        throw new PasswordNotMatchException(userId);
-    //    //boolean enabled = user.isEnabled();
-    //    //boolean nonLocked = user.isAccountNonLocked();
-    //    //ZonedDateTime d = user.getAccountExpiredTime();
-    //    //boolean nonExpired = d == null ? true : d.toInstant().toEpochMilli() > System.currentTimeMillis();
-    //    List<SimpleGrantedAuthority> list = new ArrayList<>();
-    //    List<String> rnames = null; //user.getRole();
-    //    if (rnames == null)
-    //        list.add(new SimpleGrantedAuthority("default"));
-    //    else {
-    //        for (String role : rnames) {
-    //
-    //            list.add(new SimpleGrantedAuthority(role));
-    //        }
-    //    }
-    //    return new org.springframework.security.core.userdetails.User(user.getLoginId(), user.getPassword(), true,
-    //            true, true, true, list);
-    //}
     @Override
-    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken token) throws AuthenticationException {
-
-        String userName = "yhy";
+    protected UserDetails retrieveUser(String userId, UsernamePasswordAuthenticationToken token)
+            throws AuthenticationException {
         String password = (String) token.getCredentials();
-        if (username == null || !userName.equalsIgnoreCase(username)) {
-            throw new UsernameNotFoundException("用户名不存在");
-        }
-        String pwd = "123456";
-        if (!pwd.equals(password)) {
-            throw new PasswordNotMatchException("密码不匹配");
-        }
+        Optional<com.ecp.entity.User> userOptional = userRepo.findByLoginId(userId);
+        if (!userOptional.isPresent())
+            throw new UsernameNotFoundException(userId);
+        com.ecp.entity.User user = userOptional.get();
+        if (!passwordEncoder.matches(password, user.getPassword()))
+            throw new PasswordNotMatchException(userId);
+        //boolean enabled = user.isEnabled();
+        //boolean nonLocked = user.isAccountNonLocked();
+        //ZonedDateTime d = user.getAccountExpiredTime();
+        //boolean nonExpired = d == null ? true : d.toInstant().toEpochMilli() > System.currentTimeMillis();
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        List<String> rnames = null; //user.getRole();
+        if (rnames == null)
+            list.add(new SimpleGrantedAuthority("default"));
+        else {
+            for (String role : rnames) {
 
-        return new User(username, password, true
-                , true, true
-                , true, Arrays.asList(new SimpleGrantedAuthority("default")));
+                list.add(new SimpleGrantedAuthority(role));
+            }
+        }
+        return new org.springframework.security.core.userdetails.User(user.getLoginId(), user.getPassword(), true,
+                true, true, true, list);
     }
+    //@Override
+    //protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken token) throws AuthenticationException {
+    //
+    //    String userName = "yhy";
+    //    String password = (String) token.getCredentials();
+    //    if (username == null || !userName.equalsIgnoreCase(username)) {
+    //        throw new UsernameNotFoundException("用户名不存在");
+    //    }
+    //    String pwd = "123456";
+    //    if (!pwd.equals(password)) {
+    //        throw new PasswordNotMatchException("密码不匹配");
+    //    }
+    //
+    //    return new User(username, password, true
+    //            , true, true
+    //            , true, Arrays.asList(new SimpleGrantedAuthority("default")));
+    //}
 
 }

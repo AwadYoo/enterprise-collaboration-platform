@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Modifying
     @Query("update User set lastLoginTime = ?2 where id=?1")
     @Transactional
-    void updateLastLoginTime(Long id, ZonedDateTime lastLoginTime);
+    void updateLastLoginTime(Long id, LocalDateTime lastLoginTime);
 
     @Query("select u from User u where loginId like ?1 or userName like ?1 or email like ?1")
     Page<User> findInKey(String key, Pageable pageable);

@@ -13,11 +13,16 @@
     <link rel="icon" th:href="@{/public/web/favicon.icon}"/>
     <link rel="stylesheet" th:href="@{/public/layui/css/layui.css}" media="all"/>
     <link rel="stylesheet" th:href="@{/public/web/css/public.css}" media="all"/>
+
 </head>
 <body class="loginBody">
-<!--<div th:if="${not #strings.isEmpty(failureReason)}" th:text="${'错误信息: '+ failureReason}" style="text-align:center;background:#ff8ca9;"></div>-->
-<form class="layui-form" th:action="@{/admin/login}" method="post">
-    <div class="login_face"><h2>xx平台</h2>后台管理</div>
+<div id="bgcolor"></div>
+<p style="text-align: center; margin-top:150px; font-size: 35px;color:#fff;position: relative;z-index:999;">xx平台</p>
+<p style="text-align: center; margin-top: 16px; font-size: 24px;color:#fff;position: relative;z-index:999;">后台管理</p>
+<form class="layui-form" th:action="@{/login}" method="post">
+
+    </div>
+    <div class="login_face"><img th:src="@{/public/web/images/face.png}" class="userAvatar"/></div>
     <div class="layui-form-item input-item">
         <i class="layui-icon layui-icon-username"></i>
         <input type="text" placeholder="用户名" autocomplete="off" name="username" id="userName" class="layui-input"
@@ -29,13 +34,19 @@
                lay-verify="required"/>
     </div>
     <div class="layui-form-item input-item">
-        <i class="layui-icon layui-icon-vercode"></i>
-        <input type="verify" placeholder="图形验证码" autocomplete="off" name="verify" id="verify" class="layui-input"
-               lay-verify="required"/>
+        <div><input type="verify" placeholder="图形验证码" autocomplete="off" name="verifyCode" id="verify" class="layui-input"
+                    lay-verify="required"/></div>
         <div id="imgCode">
-            <img src="/verificationCode?id=" +Math.random().toString() title="看不清，再来一张"/>
+            <img src="/verificationCode?id=" +Math.random().toString() title="看不清，再来一张"
+                 style="width: 100px; height: 35px;"/>
         </div>
+
     </div>
+    <div class="layui-form-item input-item">
+
+
+    </div>
+
     <!--<div class="layui-form-item">-->
     <!--<input type="checkbox" name="" title="记住密码" lay-skin="primary">-->
     <!--</div>-->

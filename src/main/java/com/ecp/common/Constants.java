@@ -23,7 +23,7 @@ public interface Constants {
 
     String SESSION_LAST_LOGIN_TIME = "last_login_time_session";
 
-    String PARAMETER_USER_DEFAULT_PASSWORD = "user.defaultpassword";
+    String PARAMETER_USER_DEFAULT_PASSWORD = "123456";
 
     String PARAMETER_USER_DEFAULT_NONLOCKED = "user.defaultnonlocked";
 

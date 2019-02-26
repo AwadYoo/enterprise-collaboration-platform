@@ -5,6 +5,7 @@ layui.use(['form','layer'],function(){
     var ctx = $("meta[name='ctx']").attr("content");
     form.on("submit(addUser)",function(data){
         //弹出loading
+        alert($(".action").val())
         var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
         // 实际使用时的提交信息
         if($(".action").val() == "create") {

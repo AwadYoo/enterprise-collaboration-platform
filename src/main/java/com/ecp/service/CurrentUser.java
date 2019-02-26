@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
  * @author 尤贺雨
  * @create 2019-02-25 11:07
  */
-@Service("currentUser")
+@Service
 public class CurrentUser {
 
     @Autowired

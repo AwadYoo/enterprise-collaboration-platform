@@ -18,6 +18,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/main").setViewName("main");
         registry.addViewController("/error").setViewName("error");
         registry.addViewController("/index").setViewName("index");
+        registry.addViewController("/admin/userAdd").setViewName("admin/userAdd");
+        registry.addViewController("/admin/userList").setViewName("admin/userList");
         //registry.addViewController("/news/newsList").setViewName("news/newsList");
         //registry.addViewController("/img/images").setViewName("img/images");
         //registry.addViewController("/user/userList").setViewName("user/userList");
@@ -36,10 +38,10 @@ public class WebConfig implements WebMvcConfigurer {
         //registry.addViewController("/dataManage/pointData").setViewName("dataManage/pointData");
     }
 
-    //@Override
-    //public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    //    registry.addResourceHandler("/public/**").addResourceLocations("file:./static/", "classpath:/static/");
-    //}
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/public/**").addResourceLocations("file:./static/", "classpath:/static/");
+    }
 
     @Bean
     public HttpPutFormContentFilter httpPutFormContentFilter() {

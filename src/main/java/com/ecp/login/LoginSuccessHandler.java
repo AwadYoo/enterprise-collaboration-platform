@@ -24,28 +24,31 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
     private String successUrl;
 
+    @Autowired
+    private UserRepo userRepo;
+
 //    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        HttpSession session = request.getSession();
-//        User user = userRepository.findByLoginId(userDetails.getUsername()).get();
-//        session.setAttribute(Constants.SESSION_USER_ID, user);
-//        session.setAttribute(Constants.SESSION_USER_NAME, user.getUserName());
-//        LocalDateTime lastLoginTime = user.getLastLoginTime();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        HttpSession session = request.getSession();
+        User user = userRepo.findByLoginId(userDetails.getUsername()).get();
+        session.setAttribute(Constants.SESSION_USER_ID, user);
+        session.setAttribute(Constants.SESSION_USER_NAME, user.getUserName());
+        LocalDateTime lastLoginTime = user.getLastLoginTime();
         LocalDateTime now = LocalDateTime.now();
-//        if (lastLoginTime == null) lastLoginTime = now;
-//
-//        session.setAttribute(Constants.SESSION_LAST_LOGIN_TIME, lastLoginTime);
-//        userRepository.updateLastLoginTime(user.getId(), LocalDateTime.now(), ip);
+        if (lastLoginTime == null) lastLoginTime = now;
+
+        session.setAttribute(Constants.SESSION_LAST_LOGIN_TIME, lastLoginTime);
+        userRepo.updateLastLoginTime(user.getId(), lastLoginTime);
         if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
             response.setContentType("application/json;charset=UTF-8");
-//            SessionExpiredResponse res = new SessionExpiredResponse();
-//            res.setCode(200);
-//            res.setReason("login success");
-//            response.getWriter().write(Constants.mapper.writeValueAsString(res));
+            SessionExpiredResponse res = new SessionExpiredResponse();
+            res.setCode(200);
+            res.setReason("login success");
+            response.getWriter().write(Constants.mapper.writeValueAsString(res));
             response.getWriter().write("ajax login success");
         } else {
             getRedirectStrategy().sendRedirect(request, response, successUrl);

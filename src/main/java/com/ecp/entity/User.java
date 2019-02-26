@@ -1,10 +1,13 @@
 package com.ecp.entity;
 
 import com.ecp.entity.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 //CREATE TABLE `tb_user` (
 //        `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -62,6 +65,26 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "login_id")
     private String loginId;
 
+    @JsonIgnore
     @Column(name = "password")
     private String password;
+
+    @Column(name = "last_login_time")
+    private LocalDateTime lastLoginTime;
+
+    public static Short getShortSex(String sex) {
+        if ("男".equals(sex)) return 1;
+        if ("女".equals(sex)) return 2;
+        if ("保密".equals(sex)) return 3;
+        if ("未知".equals(sex)) return 4;
+        return -1;
+    }
+
+    public static String getStringSex(Short sex) {
+        if (sex == 1) return "男";
+        if (sex == 2) return "女";
+        if (sex == 3) return "保密";
+        if (sex == 4) return "未知";
+        return "错误数据";
+    }
 }

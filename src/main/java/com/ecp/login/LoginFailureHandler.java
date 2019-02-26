@@ -1,6 +1,7 @@
 package com.ecp.login;
 
 
+import com.ecp.mode.SessionExpiredResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.WebAttributes;
@@ -35,9 +36,9 @@ public class LoginFailureHandler extends ExceptionMappingAuthenticationFailureHa
 
         if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
             response.setContentType("application/json;charset=UTF-8");
-//            SessionExpiredResponse res = new SessionExpiredResponse();
-//            res.setCode(201);
-//            res.setReason("login error");
+            SessionExpiredResponse res = new SessionExpiredResponse();
+            res.setCode(201);
+            res.setReason("login error");
             response.getWriter().write("ajax 失败");
         } else {
             //saveException(request, exception);

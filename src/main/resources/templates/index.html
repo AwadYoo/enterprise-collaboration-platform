@@ -29,19 +29,19 @@
                 <li class="layui-nav-item" data-menu="contentManagement">
                     <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>主菜单</cite></a>
                     <!--<dl class="layui-nav-child">-->
-                        <!--<dd th:each="menu,index : ${topMenu}" th:attr="data-menu=${menu.title}"-->
-                            <!--th:class="${index.first}? 'layui-this'">-->
-                            <!--<a href="javascript:;"><i class="layui-icon" th:attr="data-icon=${menu.icon}"-->
-                                                      <!--th:text="${menu.icon}"></i><cite-->
-                                    <!--th:text="${menu.name}"></cite></a>-->
-                        <!--</dd>-->
+                    <!--<dd th:each="menu,index : ${topMenu}" th:attr="data-menu=${menu.title}"-->
+                    <!--th:class="${index.first}? 'layui-this'">-->
+                    <!--<a href="javascript:;"><i class="layui-icon" th:attr="data-icon=${menu.icon}"-->
+                    <!--th:text="${menu.icon}"></i><cite-->
+                    <!--th:text="${menu.name}"></cite></a>-->
+                    <!--</dd>-->
                     <!--</dl>-->
                 </li>
             </ul>
             <ul class="layui-nav topLevelMenus" pc>
                 <!--<li th:each="menu,index : ${topMenu}" th:attr="data-menu=${menu.title}"-->
-                    <!--th:class="${index.first}? 'layui-nav-item layui-this':'layui-nav-item'">-->
-                    <!--<a href="javascript:;"><i th:class="${menu.icon}"></i><cite th:text="${menu.name}"></cite></a>-->
+                <!--th:class="${index.first}? 'layui-nav-item layui-this':'layui-nav-item'">-->
+                <!--<a href="javascript:;"><i th:class="${menu.icon}"></i><cite th:text="${menu.name}"></cite></a>-->
                 <!--</li>-->
             </ul>
             <!-- 顶部右侧菜单 -->
@@ -54,8 +54,8 @@
                 </li>
                 <li class="layui-nav-item" id="userInfo">
                     <!--<a href="javascript:;"><img th:src="@{/public/web/images/face.png}" class="layui-nav-img userAvatar"-->
-                                                <!--width="35" height="35"><cite class="adminName"-->
-                                                                             <!--th:text="${session.user_name_in_session}"></cite></a>-->
+                    <!--width="35" height="35"><cite class="adminName"-->
+                    <!--th:text="${session.user_name_in_session}"></cite></a>-->
                     <a href="javascript:;"><img th:src="@{/public/web/images/face.png}" class="layui-nav-img userAvatar"
                                                 width="35" height="35"><cite class="adminName"
                                                                              th:text="admin"></cite></a>
@@ -88,14 +88,27 @@
             <i class="layui-icon">&#xe615;</i>
         </div>
          -->
-        <div class="navBar layui-side-scroll" id="navBar">
-            <ul class="layui-nav layui-nav-tree">
-                <li class="layui-nav-item layui-this">
-                    <a href="javascript:;" th:attr="data-url=@{/main}"><i class="layui-icon"
-                                                                          data-icon=""></i><cite>首页</cite></a>
-                </li>
-            </ul>
-        </div>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <!-- 侧边导航: <ul class="layui-nav layui-nav-tree layui-nav-side"> -->
+            <li class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;">默认展开</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" th:attr="data-url=@{/admin/userList}">用户管理</a></dd>
+                    <dd><a href="javascript:;">选项2</a></dd>
+                    <dd><a href="">跳转</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">解决方案</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">移动模块</a></dd>
+                    <dd><a href="">后台模版</a></dd>
+                    <dd><a href="">电商平台</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">产品</a></li>
+            <li class="layui-nav-item"><a href="">大数据</a></li>
+        </ul>
     </div>
     <!-- 右侧内容 -->
     <div class="layui-body layui-form">
@@ -135,5 +148,33 @@
 <script type="text/javascript" th:src="@{/public/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/public/web/js/index.js}"></script>
 <script type="text/javascript" th:src="@{/public/web/js/cache.js}"></script>
+<script>
+
+    //左侧一级菜单点击
+    $(".navBar li>a").on('click', function () {
+        //二级菜单也要标识出当前打开的是哪个菜单
+        $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
+        $(this).siblings('dl').find('dd:first-child').addClass('layui-this');
+
+        $(this).parent().removeClass('layui-nav-itemed');
+        $(".navBar li").removeClass('navSelectd');
+        $(this).parent().addClass('navSelectd');
+        var href = $(this).attr('data-url');
+        $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
+    });
+    //左侧二级菜单点击
+    $(".navBar li>.layui-nav-child dd").on('click', function () {
+        //二级菜单也要标识出当前打开的是哪个菜单
+        $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
+        $(this).addClass('layui-this');
+
+        $(this).parent().parent().removeClass('layui-nav-itemed');
+        $(".navBar li").removeClass('navSelectd');
+        $(this).parent().parent().addClass('navSelectd');
+        var href = $(this).find('a').attr('data-url');
+        $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
+    });
+
+</script>
 </body>
 </html>

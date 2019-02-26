@@ -2,6 +2,7 @@ package com.ecp.entity.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -19,10 +20,12 @@ public class BaseEntity implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
+    @CreationTimestamp
     @Column(name = "update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;

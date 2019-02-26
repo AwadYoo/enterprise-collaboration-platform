@@ -15,15 +15,19 @@ layui.use(['form', 'jquery', "layer"], function () {
      }*/
 
     //判断是否设置过头像，如果设置过则修改顶部、左侧和个人资料中的头像，否则使用默认头像
-    $.getJSON(ctx + "user/users/current/face", function (res) {
-        if(res.code == 0){
-            var src =  ctx + "public/web/images/face/" + res.one.src;
-            $("#userFace").attr("src", src);
-            $(".userAvatar").attr("src", src);
-        }else{
-            $("#userFace").attr("src", ctx + "public/web/images/face.png");
-        }
-    });
+    // $.getJSON(ctx + "user/users/current/face", function (res) {
+    //     if(res.code == 0){
+    //         var src =  ctx + "public/web/images/face/" + res.one.src;
+    //         $("#userFace").attr("src", src);
+    //         $(".userAvatar").attr("src", src);
+    //     }else{
+    //         $("#userFace").attr("src", ctx + "public/web/images/face.png");
+    //     }
+    // });
+
+    $("#userFace").attr("src", ctx + "public/web/images/face.png");
+
+
     /*if (window.sessionStorage.getItem('userFace') && $(".userAvatar").length > 0) {
         $("#userFace").attr("src", window.sessionStorage.getItem('userFace'));
         $(".userAvatar").attr("src", $(".userAvatar").attr("src").split("images/")[0] + "images/" + window.sessionStorage.getItem('userFace').split("images/")[1]);
