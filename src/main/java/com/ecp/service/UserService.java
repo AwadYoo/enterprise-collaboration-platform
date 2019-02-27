@@ -12,4 +12,14 @@ public interface UserService {
     void saveUser(String loginId, String name, String email, String sex, String status, String note);
 
     Response<UserDTO> getAll(int page, int limit, String key);
+
+    void updateState(Long id, String action);
+
+    void updateUser(Long id, String loginId, String name, String email, String sex, String status, String note);
+
+    String getLastLoginTime();
+
+    boolean unlockScreen(String password);
+
+    Long getUserCount();
 }

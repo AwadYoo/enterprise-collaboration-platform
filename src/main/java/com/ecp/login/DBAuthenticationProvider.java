@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,7 +52,10 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
         com.ecp.entity.User user = userOptional.get();
         if (!passwordEncoder.matches(password, user.getPassword()))
             throw new PasswordNotMatchException(userId);
-        //boolean enabled = user.isEnabled();
+        boolean enabled = user.isEnabled();
+        if (!enabled) {
+            throw new AccountLockedException("账户已被锁定!请联系管理员");
+        }
         //boolean nonLocked = user.isAccountNonLocked();
         //ZonedDateTime d = user.getAccountExpiredTime();
         //boolean nonExpired = d == null ? true : d.toInstant().toEpochMilli() > System.currentTimeMillis();
@@ -71,22 +72,4 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
         return new org.springframework.security.core.userdetails.User(user.getLoginId(), user.getPassword(), true,
                 true, true, true, list);
     }
-    //@Override
-    //protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken token) throws AuthenticationException {
-    //
-    //    String userName = "yhy";
-    //    String password = (String) token.getCredentials();
-    //    if (username == null || !userName.equalsIgnoreCase(username)) {
-    //        throw new UsernameNotFoundException("用户名不存在");
-    //    }
-    //    String pwd = "123456";
-    //    if (!pwd.equals(password)) {
-    //        throw new PasswordNotMatchException("密码不匹配");
-    //    }
-    //
-    //    return new User(username, password, true
-    //            , true, true
-    //            , true, Arrays.asList(new SimpleGrantedAuthority("default")));
-    //}
-
 }

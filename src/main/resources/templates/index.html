@@ -93,7 +93,7 @@
             <li class="layui-nav-item layui-nav-itemed">
                 <a href="javascript:;">默认展开</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" th:attr="data-url=@{/admin/userList}">用户管理</a></dd>
+                    <dd><a href="javascript:;" th:attr="data-url=@{/admin/userList}"><cite>用户管理</cite></a></dd>
                     <dd><a href="javascript:;">选项2</a></dd>
                     <dd><a href="">跳转</a></dd>
                 </dl>
@@ -150,30 +150,6 @@
 <script type="text/javascript" th:src="@{/public/web/js/cache.js}"></script>
 <script>
 
-    //左侧一级菜单点击
-    $(".navBar li>a").on('click', function () {
-        //二级菜单也要标识出当前打开的是哪个菜单
-        $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
-        $(this).siblings('dl').find('dd:first-child').addClass('layui-this');
-
-        $(this).parent().removeClass('layui-nav-itemed');
-        $(".navBar li").removeClass('navSelectd');
-        $(this).parent().addClass('navSelectd');
-        var href = $(this).attr('data-url');
-        $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
-    });
-    //左侧二级菜单点击
-    $(".navBar li>.layui-nav-child dd").on('click', function () {
-        //二级菜单也要标识出当前打开的是哪个菜单
-        $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
-        $(this).addClass('layui-this');
-
-        $(this).parent().parent().removeClass('layui-nav-itemed');
-        $(".navBar li").removeClass('navSelectd');
-        $(this).parent().parent().addClass('navSelectd');
-        var href = $(this).find('a').attr('data-url');
-        $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
-    });
 
 </script>
 </body>

@@ -28,6 +28,9 @@ layui.use(['form','layer','table','laytpl'],function(){
                 }
             }},
             {field: 'userSex', title: '用户性别', align:'center'},
+            {field: 'phone', title: '手机', align:'center'},
+            {field: 'dept', title: '部门', align:'center'},
+            {field: 'job', title: '工作', align:'center'},
             {field: 'userStatus', title: '用户状态',  align:'center'},
             {field: 'lastLoginTime', title: '最后登录时间', align:'center',minWidth:150},
             {type: "hidden", field:"userDesc"},
@@ -61,7 +64,7 @@ layui.use(['form','layer','table','laytpl'],function(){
             index = layui.layer.open({
                 title: "修改用户",
                 type: 2,
-                content: ctx + "user/userAdd",
+                content: ctx + "admin/userAdd",
                 success: function (layero, index) {
                     var body = layui.layer.getChildFrame('body', index);
                     body.find(".action").val("update");
@@ -85,7 +88,7 @@ layui.use(['form','layer','table','laytpl'],function(){
             index = layui.layer.open({
                 title: "添加用户",
                 type: 2,
-                content: ctx + "user/userAdd",
+                content: ctx + "admin/userAdd",
                 success: function () {
                     var body = layui.layer.getChildFrame('body', index);
                     body.find(".action").val("create");

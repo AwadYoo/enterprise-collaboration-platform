@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 import static com.ecp.common.util.DateUtils.yyyy_mmddhhmiss;
 
@@ -18,17 +16,21 @@ import static com.ecp.common.util.DateUtils.yyyy_mmddhhmiss;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO implements Serializable {
+
+
     private Long id;
     private String userId;
     private String userName;
     private String userEmail;
     private String userSex;
-    //private String userStatus;
+    private String userStatus;
     //private String userGrade;
     private String lastLoginTime;
     private String userDesc;
     //private String birthday;
-    //private String mobile;
+    private Long phone;
+    private String dept;
+    private String job;
     //private String face;
 
     public UserDTO() {
@@ -41,21 +43,19 @@ public class UserDTO implements Serializable {
         this.userName = user.getUserName();
         this.userEmail = user.getEmail();
         this.userSex = User.getStringSex(user.getGender());
-        //this.userStatus = getStringState(user.isEnabled());
+        this.userStatus = User.getStringState(user.isEnabled());
         LocalDateTime loginTime = user.getLastLoginTime();
         this.lastLoginTime = loginTime == null ? "" : yyyy_mmddhhmiss.format(loginTime);
         this.userDesc = user.getMemo();
+        this.phone = user.getPhone();
+        this.job = user.getJob();
+        if (user.getDept() != null) {
+            this.dept = user.getDept().getName();
+        }
         //LocalDate b = user.getBirthday();
         //this.birthday = b == null ? "" : yyyymmdd.format(b);
         //this.mobile = user.getMobile();
         //this.face = user.getFace();
     }
 
-    //public static String getStringState(boolean state) {
-    //    return state ? "正常用户" : "限制用户";
-    //}
-    //
-    //public static boolean getBooleanState(String state) {
-    //    return "正常用户".equals(state);
-    //}
 }

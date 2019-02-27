@@ -3,6 +3,8 @@ package com.ecp.entity;
 import com.ecp.entity.base.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -52,12 +54,15 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "dept_id")
     private Long deptId;
 
-//    @JoinColumn(referencedColumnName = "dept_id", insertable = false, updatable = false)
-//    @NotFound(action = NotFoundAction.IGNORE)
-//    private Dept dept;
+    @OneToOne
+    @JoinColumn(name = "dept_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Dept dept;
+
+    private boolean enabled;
 
     @Column(name = "phone")
-    private Integer phone;
+    private Long phone;
 
     @Column(name = "email")
     private String email;
@@ -71,6 +76,8 @@ public class User extends BaseEntity implements Serializable {
 
     @Column(name = "last_login_time")
     private LocalDateTime lastLoginTime;
+    @Column(name = "face")
+    private String face;
 
     public static Short getShortSex(String sex) {
         if ("男".equals(sex)) return 1;
@@ -87,4 +94,14 @@ public class User extends BaseEntity implements Serializable {
         if (sex == 4) return "未知";
         return "错误数据";
     }
+
+    public static String getStringState(boolean state) {
+        return state ? "正常用户" : "限制用户";
+    }
+
+    public static boolean getBooleanState(String state) {
+        return "正常用户".equals(state);
+    }
 }
+
+

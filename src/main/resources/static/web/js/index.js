@@ -211,6 +211,31 @@ layui.use(['bodyTab','form','element','layer','jquery'],function(){
 	}
 })
 
+
+//左侧一级菜单点击
+$(".navBar li>a").on('click', function () {
+    //二级菜单也要标识出当前打开的是哪个菜单
+    $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
+    $(this).siblings('dl').find('dd:first-child').addClass('layui-this');
+
+    $(this).parent().removeClass('layui-nav-itemed');
+    $(".navBar li").removeClass('navSelectd');
+    $(this).parent().addClass('navSelectd');
+    var href = $(this).attr('data-url');
+    $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
+});
+//左侧二级菜单点击
+$(".navBar li>.layui-nav-child dd").on('click', function () {
+    //二级菜单也要标识出当前打开的是哪个菜单
+    $('.navBar li>.layui-nav-child dd').removeClass('layui-this');
+    $(this).addClass('layui-this');
+
+    $(this).parent().parent().removeClass('layui-nav-itemed');
+    $(".navBar li").removeClass('navSelectd');
+    $(this).parent().parent().addClass('navSelectd');
+    var href = $(this).find('a').attr('data-url');
+    $(".clildFrame div").html('<iframe allowfullscreen="true" allowtransparency="true" src="' + href + '"></iframe>');
+});
 //打开新窗口
 function addTab(_this){
 	tab.tabAdd(_this);

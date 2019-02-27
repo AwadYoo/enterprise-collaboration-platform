@@ -47,8 +47,10 @@ public class LoginFailureHandler extends ExceptionMappingAuthenticationFailureHa
                     exception);
             if (exception instanceof CaptchException) {
                 session.setAttribute("failureReason", exception.getMessage());
-            } else if (exception instanceof UsernameNotFoundException || exception instanceof AuthenticationException) {
+            } else if (exception instanceof UsernameNotFoundException) {
                 session.setAttribute("failureReason", "用户名或密码错误");
+            } else if (exception instanceof AccountLockedException) {
+                session.setAttribute("failureReason", "此用户被禁止使用");
             }
 //            else if (exception instanceof DisabledException) {
 //                session.setAttribute("failureReason", "此用户被禁止使用");

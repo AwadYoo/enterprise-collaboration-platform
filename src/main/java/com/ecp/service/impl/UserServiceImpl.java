@@ -1,6 +1,7 @@
 package com.ecp.service.impl;
 
 import com.ecp.common.Constants;
+import com.ecp.common.util.DateUtils;
 import com.ecp.entity.User;
 import com.ecp.mode.OKResponse;
 import com.ecp.mode.Response;
@@ -42,6 +43,7 @@ public class UserServiceImpl implements UserService {
         user.setCreateUser(currentUser.user().getUserName());
         user.setPassword(passwordEncoder.encode(Constants.PARAMETER_USER_DEFAULT_PASSWORD));
         user.setCreateTime(LocalDateTime.now());
+        user.setEnabled(User.getBooleanState(status));
         userRepo.save(user);
     }
 
@@ -57,6 +59,41 @@ public class UserServiceImpl implements UserService {
             pageUser = userRepo.findInKey(key, pageable).map(user -> new UserDTO(user));
         }
         return new OKResponse<>(pageUser.getContent(), pageUser.getTotalElements());
+    }
+
+    @Override
+    public void updateState(Long id, String action) {
+        userRepo.updateState(id, "enable".equals(action));
+    }
+
+    @Override
+    public void updateUser(Long id, String loginId, String name, String email, String sex, String status, String note) {
+        userRepo.findById(id).ifPresent(user -> {
+            user.setLoginId(loginId);
+            user.setUserName(name);
+            user.setEmail(email);
+            user.setGender(User.getShortSex(sex));
+            user.setEnabled(User.getBooleanState(status));
+            user.setMemo(note);
+            user.setUpdateUser(currentUser.user().getUserName());
+            user.setUpdateTime(LocalDateTime.now());
+            userRepo.save(user);
+        });
+    }
+
+    @Override
+    public String getLastLoginTime() {
+        return DateUtils.yyyymmddhhmiss.format(currentUser.getLastLoginTime());
+    }
+
+    @Override
+    public boolean unlockScreen(String password) {
+        return passwordEncoder.matches(password, currentUser.user().getPassword());
+    }
+
+    @Override
+    public Long getUserCount() {
+        return userRepo.count();
     }
 
 
