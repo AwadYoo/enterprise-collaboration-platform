@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -28,8 +29,8 @@ public class CurrentUser {
         return (String) session.getAttribute(Constants.SESSION_USER_NAME);
     }
 
-    public ZonedDateTime getLastLoginTime() {
-        return (ZonedDateTime) session.getAttribute(Constants.SESSION_LAST_LOGIN_TIME);
+    public LocalDateTime getLastLoginTime() {
+        return (LocalDateTime) session.getAttribute(Constants.SESSION_LAST_LOGIN_TIME);
     }
 
 }

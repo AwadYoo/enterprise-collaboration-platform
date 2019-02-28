@@ -1,23 +1,24 @@
 var form, $, areaData;
 var ctx = document.getElementsByName("ctx")[0].content;
 layui.config({
-    base : ctx + "public/web/js/"
+    base: ctx + "public/web/js/"
 }).extend({
-    "address" : "address"
+    "address": "address"
 })
-layui.use(['form','layer','upload','laydate',"address"],function(){
+layui.use(['form', 'layer', 'upload', 'laydate', "address"], function () {
     form = layui.form;
     $ = layui.jquery;
     var layer = parent.layer === undefined ? layui.layer : top.layer,
         upload = layui.upload,
         laydate = layui.laydate,
         address = layui.address;
+
     function getUserInfo() {
-        $.getJSON(ctx + "user/users/current",function (res) {
+        $.getJSON(ctx + "user/users/current", function (res) {
             $(".loginId").val(res.userId);
             $(".realName").val(res.userName);
             $("input[value='" + res.userSex + "']").prop("checked", "checked");
-            $(".userPhone").val(res.mobile);
+            $(".userPhone").val(res.phone);
             $(".userBirthday").val(res.birthday);
             $(".userEmail").val(res.userEmail);
             $(".userAvatar").attr("src", ctx + "public/web/images/face/" + res.face);
@@ -27,27 +28,28 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
 
     getUserInfo();
 
-    //上传头像
-    upload.render({
-        elem: '.userFaceBtn',
-        url: ctx + 'user/users/current/face',
-        method : "post",  //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
-        done: function(res, index, upload){
-            //var num = parseInt(4*Math.random());  //生成0-4的随机数，随机显示一个头像信息
-            if(res.code == 0) {
-                var faceSrc = ctx + "public/web/images/face/" + res.one.src
-                $('#userFace').attr('src',faceSrc );
-                window.sessionStorage.setItem('userFace', faceSrc)
-            }else{
-                layer.msg(res.msg, {icon:5});
-            }
-        }
-    });
+    // //上传头像
+    // upload.render({
+    //     elem: '.userFaceBtn',
+    //     url: ctx + 'user/users/current/face',
+    //     method: "post",  //此处是为了演示之用，实际使用中请将此删除，默认用post方式提交
+    //     done: function (res, index, upload) {
+    //         //var num = parseInt(4*Math.random());  //生成0-4的随机数，随机显示一个头像信息
+    //         if (res.code == 0) {
+    //             // var faceSrc = ctx + "/face/" + res.one.src
+    //             var faceSrc = System.getProperty("user.dir") + "/face/" + res.one.src
+    //             $('#userFace').attr('src', faceSrc);
+    //             window.sessionStorage.setItem('userFace', faceSrc)
+    //         } else {
+    //             layer.msg(res.msg, {icon: 5});
+    //         }
+    //     }
+    // });
 
     //添加验证规则
     form.verify({
-        userBirthday : function(value){
-            if(!/^(\d{4})[\u4e00-\u9fa5]|[-\/](\d{1}|0\d{1}|1[0-2])([\u4e00-\u9fa5]|[-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/.test(value)){
+        userBirthday: function (value) {
+            if (!/^(\d{4})[\u4e00-\u9fa5]|[-\/](\d{1}|0\d{1}|1[0-2])([\u4e00-\u9fa5]|[-\/](\d{1}|0\d{1}|[1-2][0-9]|3[0-1]))*$/.test(value)) {
                 return "出生日期格式不正确！";
             }
         }
@@ -57,7 +59,7 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
         elem: '.userBirthday',
         format: 'yyyy年MM月dd日',
         trigger: 'click',
-        max : 0/*,
+        max: 0/*,
         mark : {"0-12-15":"生日"},
         done: function(value, date){
             if(date.month === 12 && date.date === 15){ //点击每年12月15日，弹出提示语
@@ -70,26 +72,26 @@ layui.use(['form','layer','upload','laydate',"address"],function(){
     /*address.provinces();*/
 
     //提交个人资料
-    form.on("submit(changeUser)",function(data){
-        var index = layer.msg('提交中，请稍候',{icon: 16,time:false,shade:0.8});
+    form.on("submit(changeUser)", function (data) {
+        var index = layer.msg('提交中，请稍候', {icon: 16, time: false, shade: 0.8});
         var userInfo = {
-            'name' : $(".realName").val(),
-            'sex' : data.field.sex,
-            'mobile' : $(".userPhone").val(),
-            'birthday' : $(".userBirthday").val(),
-            'email' : $(".userEmail").val()
+            'name': $(".realName").val(),
+            'sex': data.field.sex,
+            'phone': $(".userPhone").val(),
+            'birthday': null,
+            'email': $(".userEmail").val()
         };
         $.ajax({
-            type:"put",
+            type: "put",
             url: ctx + "user/users/current",
             data: userInfo,
-            success:function (res) {
+            success: function (res) {
                 layer.close(index);
-                if(res.code == 0){
+                if (res.code == 0) {
                     layer.msg("个人资料修改成功！");
                     getUserInfo();
-                }else{
-                    layer.msg(res.msg, {icon:5});
+                } else {
+                    layer.msg(res.msg, {icon: 5});
                 }
             }
         });

@@ -58,12 +58,12 @@
                     <!--th:text="${session.user_name_in_session}"></cite></a>-->
                     <a href="javascript:;"><img th:src="@{/public/web/images/face.png}" class="layui-nav-img userAvatar"
                                                 width="35" height="35"><cite class="adminName"
-                                                                             th:text="admin"></cite></a>
+                                                                             th:text="${session.user_name_in_session}"></cite></a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" th:attr="data-url=@{/user/userInfo}"><i class="seraph icon-ziliao"
+                        <dd><a href="javascript:;" th:attr="data-url=@{/admin/userInfo}"><i class="seraph icon-ziliao"
                                                                                            data-icon="icon-ziliao"></i><cite>个人资料</cite></a>
                         </dd>
-                        <dd><a href="javascript:;" th:attr="data-url=@{/user/changePwd}"><i class="seraph icon-xiugai"
+                        <dd><a href="javascript:;" th:attr="data-url=@{/admin/changePwd}"><i class="seraph icon-xiugai"
                                                                                             data-icon="icon-xiugai"></i><cite>修改密码</cite></a>
                         </dd>
                         <!--<dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>

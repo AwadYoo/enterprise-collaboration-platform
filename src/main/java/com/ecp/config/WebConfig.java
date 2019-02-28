@@ -21,6 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addViewController("/admin/userAdd").setViewName("admin/userAdd");
         registry.addViewController("/admin/userList").setViewName("admin/userList");
         registry.addViewController("/admin/userInfo").setViewName("admin/userInfo");
+        registry.addViewController("/admin/changePwd").setViewName("admin/changePwd");
         //registry.addViewController("/news/newsList").setViewName("news/newsList");
         //registry.addViewController("/img/images").setViewName("img/images");
         //registry.addViewController("/user/userList").setViewName("user/userList");
@@ -42,6 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/public/**").addResourceLocations("file:./static/", "classpath:/static/");
+        registry.addResourceHandler("/face/**").addResourceLocations("file:face/");
     }
 
     @Bean

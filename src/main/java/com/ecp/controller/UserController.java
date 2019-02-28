@@ -8,13 +8,16 @@ import com.ecp.repo.UserRepo;
 import com.ecp.service.CurrentUser;
 import com.ecp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,9 +48,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public Response addUser(String loginId, String name, String email, String sex, String status, String note) {
+    public Response addUser(String loginId, String name, String email, String sex, String status, String note, Long phone, String job, Long deptId) {
         try {
-            userService.saveUser(loginId, name, email, sex, status, note);
+            userService.saveUser(loginId, name, email, sex, status, note, phone, job, deptId);
             return new Response(Response.CODE_OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,6 +69,23 @@ public class UserController {
     public UserDTO currentUser() {
         return new UserDTO(currentUser.user());
     }
+
+    @PutMapping("/users/current")
+    public Response updateCurrentUser(String name, String sex, Long phone, String birthday, String email) {
+        User user = currentUser.user();
+        user.setUserName(name);
+        user.setGender(User.getShortSex(sex));
+        user.setPhone(phone);
+        user.setEmail(email);
+        try {
+            userRepo.save(user);
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
+
 
     @GetMapping("/users/count")
     public Map getUserCount() {
@@ -93,9 +113,9 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     public Response updateUser(@PathVariable Long id, String loginId, String name, String email, String sex,
-                               String status, String note) {
+                               String status, String note, Long phone, String job, Long deptId) {
         try {
-            userService.updateUser(id, loginId, name, email, sex, status, note);
+            userService.updateUser(id, loginId, name, email, sex, status, note, phone, job, deptId);
             return new Response(Response.CODE_OK);
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,13 +165,14 @@ public class UserController {
     }
 
     @PostMapping("/users/current/face")
-    public Response uploadCurrentFace(MultipartFile file) {
+    public Response uploadCurrentFace(MultipartFile file, HttpSession session) {
         String fileName = file.getOriginalFilename();
         String post = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
         User user = currentUser.user();
         String fileName2 = user.getLoginId() + post;
         try {
-            File p = new File(this.getClass().getResource("/static/web/images/face").getPath());
+            String realPath = System.getProperty("user.dir");
+            File p = new File(realPath + "/face");
             if (!p.exists()) p.mkdirs();
             File f = new File(p, fileName2);
             FileCopyUtils.copy(file.getInputStream(), new FileOutputStream(f));

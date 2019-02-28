@@ -1,5 +1,7 @@
 package com.ecp.controller;
 
+import com.ecp.mode.OKResponse;
+import com.ecp.mode.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +32,4 @@ public class ViewController {
         ModelAndView mv = new ModelAndView("/test");
         return mv;
     }
-
-
 }

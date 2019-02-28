@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     private CurrentUser currentUser;
 
     @Override
-    public void saveUser(String loginId, String name, String email, String sex, String status, String note) {
+    public void saveUser(String loginId, String name, String email, String sex, String status, String note, Long phone, String job, Long deptId) {
         User user = new User();
         user.setLoginId(loginId);
         user.setUserName(name);
@@ -44,6 +44,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(Constants.PARAMETER_USER_DEFAULT_PASSWORD));
         user.setCreateTime(LocalDateTime.now());
         user.setEnabled(User.getBooleanState(status));
+        user.setJob(job);
+        user.setPhone(phone);
+        user.setDeptId(deptId);
         userRepo.save(user);
     }
 
@@ -67,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(Long id, String loginId, String name, String email, String sex, String status, String note) {
+    public void updateUser(Long id, String loginId, String name, String email, String sex, String status, String note,Long phone, String job, Long deptId) {
         userRepo.findById(id).ifPresent(user -> {
             user.setLoginId(loginId);
             user.setUserName(name);
@@ -77,6 +80,9 @@ public class UserServiceImpl implements UserService {
             user.setMemo(note);
             user.setUpdateUser(currentUser.user().getUserName());
             user.setUpdateTime(LocalDateTime.now());
+            user.setJob(job);
+            user.setPhone(phone);
+            user.setDeptId(deptId);
             userRepo.save(user);
         });
     }

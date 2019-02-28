@@ -16,8 +16,6 @@ layui.use(['form', 'layer'], function () {
                 phone: $("#_phone").val(),
                 job: $("#_job").val(),
                 deptId: depId,
-
-
                 sex: data.field.sex,  //性别
                 status: data.field.userStatus,    //用户状态
                 note: $(".userDesc").val()    //用户简介
@@ -40,6 +38,9 @@ layui.use(['form', 'layer'], function () {
                     loginId: $(".loginId").val(),//登录名
                     name: $(".userName").val(),//姓名
                     email: $(".userEmail").val(),  //邮箱
+                    phone: $("#_phone").val(),
+                    job: $("#_job").val(),
+                    deptId: depId,
                     sex: data.field.sex,  //性别
                     status: data.field.userStatus,    //用户状态
                     note: $(".userDesc").val()    //用户简介
@@ -65,14 +66,14 @@ layui.use(['form', 'layer'], function () {
 
     $.ajax({
         type: "get",
-        url:  "/getDept",
+        url: "/getDept",
         success: function (res) {
             if (res.code == 0) {
                 var deptData = res.data;
                 var deptHtml = '';
                 if (deptData.length > 0) {
                     deptData.forEach(function (item) {
-                        deptHtml += ' <option value="' + item.id + '">'+item.name+'</option>'
+                        deptHtml += ' <option value="' + item.id + '">' + item.name + '</option>'
                     })
                 }
                 $("#deptSelect").html(deptHtml);
