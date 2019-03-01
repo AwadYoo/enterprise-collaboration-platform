@@ -61,10 +61,10 @@
                                                                              th:text="${session.user_name_in_session}"></cite></a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" th:attr="data-url=@{/admin/userInfo}"><i class="seraph icon-ziliao"
-                                                                                           data-icon="icon-ziliao"></i><cite>个人资料</cite></a>
+                                                                                            data-icon="icon-ziliao"></i><cite>个人资料</cite></a>
                         </dd>
                         <dd><a href="javascript:;" th:attr="data-url=@{/admin/changePwd}"><i class="seraph icon-xiugai"
-                                                                                            data-icon="icon-xiugai"></i><cite>修改密码</cite></a>
+                                                                                             data-icon="icon-xiugai"></i><cite>修改密码</cite></a>
                         </dd>
                         <!--<dd><a href="javascript:;" class="showNotice"><i class="layui-icon">&#xe645;</i><cite>系统公告</cite><span class="layui-badge-dot"></span></a></dd>
                         <dd pc><a href="javascript:;" class="functionSetting"><i class="layui-icon">&#xe620;</i><cite>功能设定</cite><span class="layui-badge-dot"></span></a></dd>-->
@@ -94,7 +94,7 @@
                 <a href="javascript:;">默认展开</a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" th:attr="data-url=@{/admin/userList}"><cite>用户管理</cite></a></dd>
-                    <dd><a href="javascript:;">选项2</a></dd>
+                    <dd><a href="javascript:;" th:attr="data-url=@{/admin/deptList}"><cite>部门管理</cite></a></dd>
                     <dd><a href="">跳转</a></dd>
                 </dl>
             </li>

@@ -186,4 +186,7 @@ public class UserController {
             return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
         }
     }
+
+
+
 }
