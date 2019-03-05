@@ -65,6 +65,42 @@ public class UserController {
     }
 
 
+    @PutMapping("/users/{id}")
+    public Response updateUser(@PathVariable Long id, String loginId, String name, String email, String sex,
+                               String status, String note, Long phone, String job, Long deptId) {
+        try {
+            userService.updateUser(id, loginId, name, email, sex, status, note, phone, job, deptId);
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
+
+    @PutMapping("/users/{id}/{action}")
+    public Response updateUser(@PathVariable Long id, @PathVariable String action) {
+        try {
+            userService.updateState(id, action);
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
+
+    @PostMapping("/users/batch")
+    public Response deleteUserBatch(@RequestParam("id[]") Long[] ids) {
+        try {
+            for (Long id : ids) {
+                userRepo.deleteById(id);
+            }
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
+
     @GetMapping("/users/current")
     public UserDTO currentUser() {
         return new UserDTO(currentUser.user());
@@ -109,42 +145,6 @@ public class UserController {
         Map map = new HashMap(1);
         map.put("lastLoginTime", userService.getLastLoginTime());
         return map;
-    }
-
-    @PutMapping("/users/{id}")
-    public Response updateUser(@PathVariable Long id, String loginId, String name, String email, String sex,
-                               String status, String note, Long phone, String job, Long deptId) {
-        try {
-            userService.updateUser(id, loginId, name, email, sex, status, note, phone, job, deptId);
-            return new Response(Response.CODE_OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
-        }
-    }
-
-    @PutMapping("/users/{id}/{action}")
-    public Response updateUser(@PathVariable Long id, @PathVariable String action) {
-        try {
-            userService.updateState(id, action);
-            return new Response(Response.CODE_OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
-        }
-    }
-
-    @PostMapping("/users/batch")
-    public Response deleteUserBatch(@RequestParam("id[]") Long[] ids) {
-        try {
-            for (Long id : ids) {
-                userRepo.deleteById(id);
-            }
-            return new Response(Response.CODE_OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
-        }
     }
 
     @PostMapping("/password/selfChange")

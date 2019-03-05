@@ -54,6 +54,16 @@ public class DeptServiceImpl implements DeptService {
         deptRepo.save(dept);
     }
 
+    @Override
+    public void updateUser(Long id, String code, String name, String leader) {
+        Dept dept = deptRepo.findById(id).get();
+        dept.setCode(code);
+        dept.setName(name);
+        dept.setLeader(leader);
+        dept.setUpdateTime(LocalDateTime.now());
+        dept.setUpdateUser(currentUser.userName());
+        deptRepo.save(dept);
+    }
 
 
 }

@@ -4,6 +4,7 @@
  */
 package com.ecp.login;
 
+import com.ecp.entity.User;
 import com.ecp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +34,7 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
     @Autowired
     private UserRepo userRepo;
 
-    @Resource(name = "passwordEncoder")
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -46,16 +47,18 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
     protected UserDetails retrieveUser(String userId, UsernamePasswordAuthenticationToken token)
             throws AuthenticationException {
         String password = (String) token.getCredentials();
-        Optional<com.ecp.entity.User> userOptional = userRepo.findByLoginId(userId);
+        Optional<User> userOptional = userRepo.findByLoginId(userId);
         if (!userOptional.isPresent())
             throw new UsernameNotFoundException(userId);
-        com.ecp.entity.User user = userOptional.get();
-        if (!passwordEncoder.matches(password, user.getPassword()))
+        User user = userOptional.get();
+        String userPassword = user.getPassword();
+//        String userPassword = "123456";
+        if (!passwordEncoder.matches(password, userPassword))
             throw new PasswordNotMatchException(userId);
         boolean enabled = user.isEnabled();
-        if (!enabled) {
-            throw new AccountLockedException("账户已被锁定!请联系管理员");
-        }
+//        if (!enabled) {
+//            throw new AccountLockedException("账户已被锁定!请联系管理员");
+//        }
         //boolean nonLocked = user.isAccountNonLocked();
         //ZonedDateTime d = user.getAccountExpiredTime();
         //boolean nonExpired = d == null ? true : d.toInstant().toEpochMilli() > System.currentTimeMillis();
@@ -69,7 +72,7 @@ public class DBAuthenticationProvider extends AbstractUserDetailsAuthenticationP
                 list.add(new SimpleGrantedAuthority(role));
             }
         }
-        return new org.springframework.security.core.userdetails.User(user.getLoginId(), user.getPassword(), true,
+        return new org.springframework.security.core.userdetails.User(user.getLoginId(), userPassword, enabled,
                 true, true, true, list);
     }
 }

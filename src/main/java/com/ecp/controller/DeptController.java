@@ -4,13 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.ecp.entity.Dept;
 import com.ecp.mode.OKResponse;
 import com.ecp.mode.Response;
+import com.ecp.mode.dto.UserDTO;
+import com.ecp.repo.DeptRepo;
 import com.ecp.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +24,8 @@ public class DeptController {
 
     @Autowired
     private DeptService deptService;
+    @Autowired
+    private DeptRepo deptRepo;
 
     @GetMapping("/getDept")
     public Response getDept() {
@@ -47,7 +48,7 @@ public class DeptController {
     }
 
     @PostMapping("/depts")
-    public Response addUser(String code, String name, String leader, String memo) {
+    public Response addDepts(String code, String name, String leader, String memo) {
         try {
             deptService.saveDept(code, name, leader, memo);
             return new Response(Response.CODE_OK);
@@ -57,4 +58,34 @@ public class DeptController {
         }
     }
 
+    @DeleteMapping("/depts/{id}")
+    public Response deleteDepts(@PathVariable Long id) {
+        deptRepo.deleteById(id);
+        return new Response(Response.CODE_OK);
+    }
+
+
+    @PutMapping("/depts/{id}")
+    public Response updateDepts(@PathVariable Long id, String code, String name, String leader) {
+        try {
+            deptService.updateUser(id, code, name, leader);
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/depts/batch")
+    public Response deleteDeptBatch(@RequestParam("id[]") Long[] ids) {
+        try {
+            for (Long id : ids) {
+                deptRepo.deleteById(id);
+            }
+            return new Response(Response.CODE_OK);
+        } catch (Exception e) {
+            return new Response(Response.CODE_COMMON_ERROR, e.getMessage());
+        }
+    }
 }

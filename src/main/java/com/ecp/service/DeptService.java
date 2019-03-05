@@ -7,4 +7,6 @@ public interface DeptService {
     Page<Dept> getList(int page, int limit, String key);
 
     void saveDept(String code, String name, String leader, String memo);
+
+    void updateUser(Long id, String code, String name, String leader);
 }
