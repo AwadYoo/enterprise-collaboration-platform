@@ -68,7 +68,7 @@ public class DeptController {
     @PutMapping("/depts/{id}")
     public Response updateDepts(@PathVariable Long id, String code, String name, String leader) {
         try {
-            deptService.updateUser(id, code, name, leader);
+            deptService.updateDept(id, code, name, leader);
             return new Response(Response.CODE_OK);
         } catch (Exception e) {
             e.printStackTrace();

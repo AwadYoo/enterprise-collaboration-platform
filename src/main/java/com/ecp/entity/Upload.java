@@ -1,6 +1,8 @@
 package com.ecp.entity;
 
 import com.ecp.entity.base.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -15,8 +17,9 @@ public class Upload extends BaseEntity {
 
     private String suffix;
 
-    private Long size;
+    private Double size;
 
+    @JsonIgnore
     private String content;
 
 }

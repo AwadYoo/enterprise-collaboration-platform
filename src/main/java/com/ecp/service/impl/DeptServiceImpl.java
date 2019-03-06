@@ -55,7 +55,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void updateUser(Long id, String code, String name, String leader) {
+    public void updateDept(Long id, String code, String name, String leader) {
         Dept dept = deptRepo.findById(id).get();
         dept.setCode(code);
         dept.setName(name);

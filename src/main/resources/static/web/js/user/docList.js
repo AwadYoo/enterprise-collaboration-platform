@@ -8,19 +8,19 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
 
     //用户列表
     var tableIns = table.render({
-        elem: '#deptList',
-        url: ctx + 'dept/getList',
+        elem: '#docList',
+        url: ctx + 'doc/getList',
         cellMinWidth: 95,
         page: true,
         height: "full-125",
         limits: [10, 15, 20, 25],
         limit: 20,
-        id: "deptListTable",
+        id: "docListTable",
         cols: [[
             {type: "checkbox", field: "id", fixed: "left", width: 50},
-            {field: 'code', title: '部门编码', minWidth: 100, align: "center"},
-            {field: 'name', title: '部门名称', minWidth: 100, align: "center"},
-            {field: 'leader', title: '部门经理', minWidth: 100, align: "center"},
+            {field: 'name', title: '文件名称', minWidth: 100, align: "center"},
+            {field: 'suffix', title: '文件格式', minWidth: 100, align: "center"},
+            {field: 'size', title: '文件大小(kb)', minWidth: 100, align: "center"},
             // {
             //     field: 'userEmail', title: '用户邮箱', minWidth: 200, align: 'center', templet: function (d) {
             //         if (d.userEmail) {
@@ -36,11 +36,11 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             // {field: 'job', title: '职位', align: 'center'},
             // {field: 'userStatus', title: '用户状态', align: 'center'},
             {field: 'createUser', title: '创建者', align: 'center', minWidth: 150},
-            {field: 'updateUser', title: '修改者', align: 'center', minWidth: 150},
+            // {field: 'updateUser', title: '修改者', align: 'center', minWidth: 150},
             {field: 'createTime', title: '创建时间', align: 'center', minWidth: 150},
-            {field: 'updateTime', title: '修改时间', align: 'center', minWidth: 150},
+            // {field: 'updateTime', title: '修改时间', align: 'center', minWidth: 150},
             {type: "hidden", field: "memo"},
-            {title: '操作', minWidth: 155, templet: '#deptListBar', fixed: "right", align: "center"}
+            {title: '操作', minWidth: 155, templet: '#docListBar', fixed: "right", align: "center"}
         ]],
         done: function () {
             $("[data-field='memo']").css('display', 'none');
@@ -50,7 +50,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click", function () {
         //if($(".searchVal").val() != ''){
-        table.reload("deptListTable", {
+        table.reload("docListTable", {
             page: {
                 curr: 1 //重新从第 1 页开始
             },
@@ -63,50 +63,16 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
         //}
     });
 
-    //添加,修改用户
-    function addDept(edit) {
+    //添加,修改
+    function addDoc(edit) {
         var index;
         if (edit) {
-            index = layui.layer.open({
-                title: "修改部门",
-                type: 2,
-                content: ctx + "admin/deptAdd",
-                success: function (layero, index) {
-                    var body = layui.layer.getChildFrame('body', index);
-                    body.find(".action").val("update");
-                    body.find(".id").val(edit.id);
-                    body.find(".name").val(edit.name);
-                    body.find(".code").val(edit.code);
-                    body.find(".memo").val(edit.memo);
-                    body.find(".leader").val(edit.leader);
-                    // body.find("#_job").val(edit.job);
-                    // body.find("#deptSelect").val(edit.deptId);
-                    // body.find("input[value='" + edit.userSex + "']").prop("checked", "checked");  //性别
-                    // body.find(".userStatus").val(edit.userStatus);    //用户状态
-                    body.find(".memo").val(edit.memo);    //用户简介
-                    var iframeWindow = layero.find('iframe')[0].contentWindow;
-                    iframeWindow.layui.form.render();
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回部门列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
-            })
+
         } else {
             index = layui.layer.open({
-                title: "添加部门",
+                title: "上传附件",
                 type: 2,
-                content: ctx + "admin/deptAdd",
-                success: function () {
-                    var body = layui.layer.getChildFrame('body', index);
-                    body.find(".action").val("create");
-                    setTimeout(function () {
-                        layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                            tips: 3
-                        });
-                    }, 500)
-                }
+                content: ctx + "admin/docAdd",
             })
         }
         layui.layer.full(index);
@@ -117,21 +83,21 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
     }
 
     $(".addNews_btn").click(function () {
-        addDept();
+        addDoc();
     })
 
     //批量删除
     $(".delAll_btn").click(function () {
-        var checkStatus = table.checkStatus('deptListTable'),
+        var checkStatus = table.checkStatus('docListTable'),
             data = checkStatus.data,
             newsId = [];
         if (data.length > 0) {
             for (var i in data) {
                 newsId.push(data[i].id);
             }
-            layer.confirm('确定删除选中的部门？', {icon: 3, title: '提示信息'}, function (index) {
+            layer.confirm('确定删除选中的附件？', {icon: 3, title: '提示信息'}, function (index) {
                 $.ajax({
-                    url: ctx + "dept/depts/batch",
+                    url: ctx + "doc/docs/batch",
                     type: "post",
                     dataType: "json",
                     data: {id: newsId},
@@ -142,12 +108,12 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                 })
             })
         } else {
-            layer.msg("请选择需要删除的部门");
+            layer.msg("请选择需要删除的附件");
         }
     })
 
     //列表操作
-    table.on('tool(deptList)', function (obj) {
+    table.on('tool(docList)', function (obj) {
         var layEvent = obj.event,
             data = obj.data;
 
@@ -172,7 +138,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
             }, function (index) {
                 $.ajax({
                     type: "put",
-                    url: ctx + "dept/depts/" + data.id + "/" + action,
+                    url: ctx + "doc/docs/" + data.id + "/" + action,
                     success: function (res) {
                         if (res.code == 0) {
                             tableIns.reload();
@@ -184,10 +150,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                 layer.close(index);
             });
         } else if (layEvent === 'del') { //删除
-            layer.confirm('确定删除此部门？', {icon: 3, title: '提示信息'}, function (index) {
+            layer.confirm('确定删除此附件？', {icon: 3, title: '提示信息'}, function (index) {
                 $.ajax({
                     type: "delete",
-                    url: ctx + "dept/depts/" + data.id,
+                    url: ctx + "doc/docs/" + data.id,
                     success: function (data) {
                         if (data.code == 0) {
                             tableIns.reload();
@@ -198,6 +164,8 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function () {
                     }
                 })
             });
+        } else if (layEvent === 'download') {
+            window.location.href = ctx + "doc/download/" + data.id;
         }
     });
 

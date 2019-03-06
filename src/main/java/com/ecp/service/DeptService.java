@@ -8,5 +8,5 @@ public interface DeptService {
 
     void saveDept(String code, String name, String leader, String memo);
 
-    void updateUser(Long id, String code, String name, String leader);
+    void updateDept(Long id, String code, String name, String leader);
 }
